@@ -32,6 +32,7 @@ doc_new = ['obama is running for president in 2016']
 
 #the feature selection has been done in FeatureSelection.py module. here we will create models using those features for prediction
 
+print(doc_new)
 #first we will use bag of words techniques
 
 #building classifier using naive bayes 
@@ -474,6 +475,8 @@ def show_most_informative_features(model, vect, clf, text=None, n=50):
         )
     #return "\n".join(output)
     print(output)
+
+countV = CountVectorizer()
 
 show_most_informative_features(logR_pipeline_ngram,vect='LogR_tfidf',clf='LogR_clf')
 show_most_informative_features(nb_pipeline_ngram,vect='nb_tfidf',clf='nb_clf')
