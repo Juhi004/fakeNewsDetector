@@ -112,11 +112,5 @@ class TestingPage(tk.Frame):
 app = ShowGui()
 app.mainloop()
 
-'''
-Extracting data from scroll
-feed it to prediction
-result should appear only after the statement has been tested
-and that also in respective colour according to the result
-'''
 
 
