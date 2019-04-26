@@ -126,9 +126,12 @@ class TestingPage(tk.Frame):
 app = ShowGui()
 app.mainloop()
 
+<<<<<<< HEAD
 '''
 remove verdict after pressing 'Go back to home'
 and that also in respective colour according to the result
 '''
+=======
+>>>>>>> 946def9e96974f2f27bfb8fcdae46e4bb8252117
 
 
