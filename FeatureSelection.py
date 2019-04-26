@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Nov  4 14:13:38 2017
-
-@author: NishitP
 
 Note: before we can train an algorithm to classify fake news labels, we need to extract features from it. It means reducing the mass
 of unstructured data into some uniform set of attributes that an algorithm can understand. For fake news detection, it could be 

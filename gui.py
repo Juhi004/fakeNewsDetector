@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 import tkinter.scrolledtext as tkst
-# import prediction as p
+from prediction import detecting_fake_news
 
 LARGE_FONT = ("Verdana", 12)
-SMALL_FONT  = ("Veradana", 10)
+SMALL_FONT = ("Verdana", 10)
 
 
 class ShowGui(tk.Tk):
@@ -75,30 +75,45 @@ class TrainingPage(tk.Frame):
 
 class TestingPage(tk.Frame):
 
+    @staticmethod
+    def put_text(var, result1, result2):
+        print(var)
+        pg = detecting_fake_news(var)
+        print(pg.verdict)
+        print(pg.prob)
+        result1.config(text=pg.verdict)
+        result2.config(text="Truth Probability Score: " + str(pg.prob))
+
+    @staticmethod
+    def clear_it(result1, result2):
+        result1.config(text="")
+        result2.config(text="")
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, padx=150, text="Testing Algorithm", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
 
-        scroll = tkst.ScrolledText(self, width=45, height=15, padx=5, pady=10).pack()
-        button = ttk.Button(self, text='Check', width=25).pack()
+        result1 = tk.Label(font=LARGE_FONT,
+                           fg='green')
+        result2 = tk.Label(pady=5,
+                           font=SMALL_FONT)
 
-        # p1 = p.detecting_fake_news("The sun rises in the east.")
-        # ans = p1.verdict
-        # probability = p1.prob
-        ans = "Verdict"
-        probability = 0.956798521
+        scroll = tkst.ScrolledText(self, width=45, height=15, padx=5, pady=10)
+        button = ttk.Button(self,
+                            text='Check', width=25,
+                            command=lambda: self.put_text(scroll.get('1.0', 'end-1c'), result1, result2))
+
+        scroll.pack()
+        button.pack()
         space = tk.Label(self, width=10)
         space.pack()
-        result1 = tk.Label(self,
-                           text=ans,
-                           font=LARGE_FONT,
-                           fg='green')
+        clear = ttk.Button(self,
+                           text="Clear",
+                           command=lambda: self.clear_it(result1, result2))
+        clear.pack()
+
         result1.pack()
-        result2 = tk.Label(self, pady=5,
-                           text="Truth Probability Score: "+str(probability),
-                           font=SMALL_FONT,
-                           fg='green')
         result2.pack()
         space = tk.Label(self, width=10)
         space.pack()
@@ -108,14 +123,11 @@ class TestingPage(tk.Frame):
         button1.pack()
 
 
-
 app = ShowGui()
 app.mainloop()
 
 '''
-Extracting data from scroll
-feed it to prediction
-result should appear only after the statement has been tested
+remove verdict after pressing 'Go back to home'
 and that also in respective colour according to the result
 '''
 

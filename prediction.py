@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Dec  4 17:45:40 2017
-
-@author: NishitP
-"""
-
 import pickle
 
 
@@ -15,12 +9,12 @@ class Twin:
 
 # doc_new = ['obama is running for president in 2016']
 
-var = input("Please enter the news text you want to verify: ")
-print("You entered: " + str(var))
+#var = input("Please enter the news text you want to verify: ")
+#print("You entered: " + str(var))
 
 
 # function to run for prediction
-def detecting_fake_news(var):    
+def detecting_fake_news(var):
     # retrieving the best model for prediction call
     load_model = pickle.load(open('final_model.sav', 'rb'))
     prediction = load_model.predict([var])
@@ -32,6 +26,10 @@ def detecting_fake_news(var):
     print("Probability: ",prediction[0])
     print("Truth probability score: ", prob[0][1])
     return p1
+
+
+if __name__ == "__detecting_fake_news__":
+    detecting_fake_news(var)
 
 
 

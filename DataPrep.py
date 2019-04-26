@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Nov  4 12:00:49 2017
 
-@author: NishitP
-"""
 #import os
 import pandas as pd
 import csv
@@ -40,6 +36,8 @@ def data_obs():
     
     print(valid_news.shape)
     print(valid_news.head(10))
+
+data_obs()
 
 #check the data by calling below function
 #data_obs()
@@ -169,4 +167,3 @@ for i , row in data_TrainNews.iterrows():
 for i,row in data_TrainNews.iterrows():
     print(row)
 """
-    
