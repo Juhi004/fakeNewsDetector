@@ -9,9 +9,10 @@ from nltk.stem import SnowballStemmer
 from nltk.stem.porter import PorterStemmer
 from nltk.tokenize import word_tokenize
 import seaborn as sb
+#nltk.download('stopwords')
 
-#before reading the files, setup the working directory to point to project repo
-#reading data files 
+# before reading the files, setup the working directory to point to project repo
+# reading data files
 
 
 test_filename = 'test.csv'
@@ -30,7 +31,7 @@ def data_obs():
     print(train_news.shape)
     print(train_news.head(10))
 
-    #below dataset were used for testing and validation purposes
+    # below dataset were used for testing and validation purposes
     print(test_news.shape)
     print(test_news.head(10))
     
@@ -44,8 +45,8 @@ data_obs()
 
 #distribution of classes for prediction
 def create_distribution(dataFile):
-    
-    return sb.countplot(x='Label', data=dataFile, palette='hls')
+    target = 'Label'
+    return sb.countplot(x=target, data=dataFile, palette='hls')
     
 
 #by calling below we can see that training, test and valid data seems to be failry evenly distributed between the classes
@@ -53,9 +54,10 @@ create_distribution(train_news)
 create_distribution(test_news)
 create_distribution(valid_news)
 
+print("Distributions created")
 
 #data integrity check (missing label values)
-#none of the datasets contains missing values therefore no cleaning required
+#none of the datasets contains missing values therefore no cleaning requiredtagged_sentences = nltk.corpus.treebank.tagged_sents()
 def data_qualityCheck():
     
     print("Checking data qualitites...")
@@ -71,13 +73,13 @@ def data_qualityCheck():
     valid_news.isnull().sum()
     valid_news.info()
 
-#run the below function call to see the quality check results
-#data_qualityCheck()
+
+# run the below function call to see the quality check results
+data_qualityCheck()
 
 
-
-#eng_stemmer = SnowballStemmer('english')
-#stopwords = set(nltk.corpus.stopwords.words('english'))
+eng_stemmer = SnowballStemmer('english')
+stopwords = set(nltk.corpus.stopwords.words('english'))
 
 #Stemming
 def stem_tokens(tokens, stemmer):
@@ -86,8 +88,9 @@ def stem_tokens(tokens, stemmer):
         stemmed.append(stemmer.stem(token))
     return stemmed
 
-#process the data
-def process_data(data,exclude_stopword=True,stem=True):
+
+# process the data
+def process_data(data, exclude_stopword=True, stem=True):
     tokens = [w.lower() for w in data]
     tokens_stemmed = tokens
     tokens_stemmed = stem_tokens(tokens, eng_stemmer)
@@ -95,8 +98,9 @@ def process_data(data,exclude_stopword=True,stem=True):
     return tokens_stemmed
 
 
-#creating ngrams
-#unigram 
+# creating ngrams
+
+# unigram
 def create_unigram(words):
     assert type(words) == list
     return words

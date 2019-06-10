@@ -31,8 +31,6 @@ def detecting_fake_news(var):
 if __name__ == "__detecting_fake_news__":
     detecting_fake_news(var)
 
-
-
 '''
 p1 = Twin()
     p1.verdict = prediction[0]

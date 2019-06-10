@@ -15,11 +15,14 @@ from sklearn.pipeline import Pipeline
 import nltk
 import nltk.corpus 
 from nltk.tokenize import word_tokenize
-from gensim.models.word2vec import Word2Vec
+#nltk.download('treebank')
+
+# from gensim.models.word2vec import Word2Vec
 
 
-#we will start with simple bag of words technique 
-#creating feature vector - document term matrix
+# we will start with simple bag of words technique
+# creating feature vector - document term matrix
+
 countV = CountVectorizer()
 train_count = countV.fit_transform(DataPrep.train_news['Statement'].values)
 
@@ -37,6 +40,7 @@ def get_countVectorizer_stats():
     print(countV.vocabulary_)
 
     #get feature names
+    print("Features name are:")
     print(countV.get_feature_names()[:25])
 
 
@@ -58,7 +62,7 @@ def get_tfidf_stats():
 tfidf_ngram = TfidfVectorizer(stop_words='english',ngram_range=(1,4),use_idf=True,smooth_idf=True)
 
 
-#POS Tagging
+# POS Tagging
 tagged_sentences = nltk.corpus.treebank.tagged_sents()
 
 cutoff = int(.75 * len(tagged_sentences))
@@ -90,13 +94,13 @@ def features(sentence, index):
     }
     
     
-#helper function to strip tags from tagged corpus	
+# helper function to strip tags from tagged corpus
 def untag(tagged_sentence):
     return [w for w, t in tagged_sentence]
 
 
 
-#Using Word2Vec 
+# Using Word2Vec
 with open("glove.6B.50d.txt", "rb") as lines:
     w2v = {line.split()[0]: np.array(map(float, line.split()[1:]))
            for line in lines}
