@@ -24,38 +24,7 @@ model = GaussianNB()
 # Train the model using the training sets
 model.fit(features, label)
 
-print("model has been created and features ahve been fitted")
-
-"""
-
-# print(train.head(10))
-# train.describe()
-
-# print(test.head(10))
-# test.describe()
-
-# Import LabelEncoder
-from sklearn import preprocessing
-# creating labelEncoder
-le = preprocessing.LabelEncoder()
-print("three")
-# Converting string labels into numbers.
-weather_encoded=le.fit_transform(weather)
-print(weather_encoded)
-
-# Converting string labels into numbers
-temp_encoded=le.fit_transform(temp)
-label=le.fit_transform(play)
-print("Temp:",temp_encoded)
-print("Play:",label)
-
-
-#Combinig weather and temp into single listof tuples
-features = zip(weather_encoded,temp_encoded)
-print(features)
-featuresA = np.array(features).reshape(1,-1)
-print(featuresA)
-"""
+print("model has been created and features have been fitted")
 
 
 def predict(v1, v2, v3):

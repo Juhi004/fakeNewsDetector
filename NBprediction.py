@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from NaiveBayesClassification import Naive_Bayes
+from NaiveBayesClassificaion import Naive_Bayes
 from matplotlib.colors import ListedColormap
 from sklearn.naive_bayes import GaussianNB
 
