@@ -3,7 +3,7 @@ from tkinter import ttk
 import tkinter.scrolledtext as tkst
 # from prediction import detecting_fake_news
 from conversion import convert_speaker, convert_statement, convert_topic
-from NBtwo import predict
+from NBtwo import predict, confusion_mtarix
 
 LARGE_FONT = ("Verdana", 12)
 SMALL_FONT = ("Verdana", 10)
@@ -27,7 +27,7 @@ class ShowGui(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, TrainingPage, TestingPage):
+        for F in (StartPage, TrainingPage, PerformancePage, TestingPage):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -50,9 +50,14 @@ class StartPage(tk.Frame):
         button1.pack()
         space = tk.Label(self, width=10)
         space.pack()
-        button2 = ttk.Button(self, text="Test the Algorithm",
-                             command=lambda: controller.show_frame(TestingPage))
+        button2 = ttk.Button(self, text="Performance of Algorithm",
+                             command=lambda: controller.show_frame(PerformancePage))
         button2.pack()
+        space = tk.Label(self, width=10)
+        space.pack()
+        button3 = ttk.Button(self, text="Test the Algorithm",
+                             command=lambda: controller.show_frame(TestingPage))
+        button3.pack()
 
 
 class TrainingPage(tk.Frame):
@@ -61,14 +66,57 @@ class TrainingPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Training Algorithm", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
-        label2 = tk.Label(self, text="Enter the path of the file for training", font=SMALL_FONT)
+        label2 = tk.Label(self, text="Enter the path of train dataset", font=SMALL_FONT)
         label2.pack(pady=10, padx=10)
-        entry = tk.Entry(self, width=50)
-        entry.pack()
+        entry1 = tk.Entry(self, width=50)
+        entry1.pack()
+        space = tk.Label(self, width=10)
+        space.pack()
+        label3 = tk.Label(self, text="Enter the path of test dataset", font=SMALL_FONT)
+        label3.pack(pady=10, padx=10)
+        entry2 = tk.Entry(self, width=50)
+        entry2.pack()
         space = tk.Label(self, width=10)
         space.pack()
         button = ttk.Button(self, text="Train")
         button.pack()
+        space = tk.Label(self, width=10)
+        space.pack()
+        button1 = ttk.Button(self, text="Back to Home",
+                             command=lambda: controller.show_frame(StartPage))
+        button1.pack()
+        train_path = entry1.get()
+        test_path = entry1.get()
+        # send these paths to data_processing and start encoding process
+
+
+class PerformancePage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Performance of Algorithm", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        confusion_matrix = confusion_mtarix()
+        # row1 = confusion_matrix[0][1]
+        matrix = tk.Label(self, text="Confusion Matrix:")
+        matrix.pack(pady=10, padx=10)
+        values1 = tk.Label(self, text=str(confusion_matrix[0][0])+"  "+str(confusion_matrix[0][1]))
+        values1.pack()
+        values2 = tk.Label(self, text=str(confusion_matrix[1][0]) + "  " + str(confusion_matrix[1][1]))
+        values2.pack(pady=10, padx=10)
+        total = confusion_matrix[0][0]+confusion_matrix[0][1]+confusion_matrix[1][0]+confusion_matrix[1][1]
+        precision = confusion_matrix[1][1]/(confusion_matrix[0][1]+confusion_matrix[1][1])
+        accuracy = (confusion_matrix[1][1]+confusion_matrix[0][0])/total
+        sensitivity = confusion_matrix[1][1]/(confusion_matrix[1][0]+confusion_matrix[1][1])
+        prevalance = (confusion_matrix[1][0]+confusion_matrix[1][1])/total
+        specificity = confusion_matrix[0][0]/(confusion_matrix[0][0]+confusion_matrix[0][1])
+        mis_rate = (confusion_matrix[0][1]+confusion_matrix[1][0])/total
+        l1 = tk.Label(self, text="Precision- "+str(precision)).pack()
+        l1 = tk.Label(self, text="Accuracy- "+str(accuracy)).pack()
+        l1 = tk.Label(self, text="Sensitivity- "+str(sensitivity)).pack()
+        l1 = tk.Label(self, text="Prevalance- "+str(prevalance)).pack()
+        l1 = tk.Label(self, text="Specificity- "+str(specificity)).pack()
+        l1 = tk.Label(self, text="Miscalculation Rate- "+str(mis_rate)).pack()
         space = tk.Label(self, width=10)
         space.pack()
         button1 = ttk.Button(self, text="Back to Home",
@@ -111,9 +159,6 @@ class TestingPage(tk.Frame):
         entry1 = tk.Entry(self)
         entry2 = tk.Entry(self)
 
-        # label2 = tk.Label(self, text="Topic").grid(row=1)
-        # label3 = tk.Label(self, text="Speaker").grid(row=2)
-
         result1 = tk.Label(font=LARGE_FONT,
                            fg='green')
         result2 = tk.Label(pady=5,
@@ -152,4 +197,3 @@ class TestingPage(tk.Frame):
 
 app = ShowGui()
 app.mainloop()
-
