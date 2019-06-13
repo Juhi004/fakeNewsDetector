@@ -48,6 +48,7 @@ def confusion_mtarix():
     confusion_matrix = np.array([[tp, tn],[fp, fn]])
     print("Confusion matrix-")
     print(confusion_matrix)
+    return confusion_matrix
 
 
 if __name__ == "__confusion_mtarix__":

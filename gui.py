@@ -98,6 +98,7 @@ class PerformancePage(tk.Frame):
         label.pack(pady=10, padx=10)
         confusion_matrix = confusion_mtarix()
         # row1 = confusion_matrix[0][1]
+        print(confusion_matrix)
         matrix = tk.Label(self, text="Confusion Matrix:")
         matrix.pack(pady=10, padx=10)
         values1 = tk.Label(self, text=str(confusion_matrix[0][0])+"  "+str(confusion_matrix[0][1]))
