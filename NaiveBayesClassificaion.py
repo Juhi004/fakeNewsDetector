@@ -1,3 +1,4 @@
+import pandas as pd
 import numpy as np
 
 
@@ -10,8 +11,7 @@ class Naive_Bayes():
             first_one = True
             first_zero = True
             for i in range(y_train.shape[0]):
-                X_temp = X_train[i, :].reshape(X_train[i, :].shape[0], 1)  # here, conversion will take place
-                    # conv.convert_one(X_train[i, :].reshape(X_train[i, :].shape[0], 1))
+                X_temp = X_train[i, :].reshape(X_train[i, :].shape[0], 1)  #
                 if y_train[i] == 1:
                     if first_one == True:
                         class_data_dic[1] = X_temp

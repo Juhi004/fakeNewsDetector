@@ -1,11 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
 import tkinter.scrolledtext as tkst
-from prediction import detecting_fake_news
+# from prediction import detecting_fake_news
+from conversion import convert_speaker, convert_statement, convert_topic
+from NBtwo import predict
 
 LARGE_FONT = ("Verdana", 12)
 SMALL_FONT = ("Verdana", 10)
 
+print("starting of gui code")
 
 class ShowGui(tk.Tk):
 
@@ -76,13 +79,20 @@ class TrainingPage(tk.Frame):
 class TestingPage(tk.Frame):
 
     @staticmethod
-    def put_text(var, result1, result2):
-        print(var)
-        pg = detecting_fake_news(var)
-        print(pg.verdict)
-        print(pg.prob)
-        result1.config(text=pg.verdict)
-        result2.config(text="Truth Probability Score: " + str(pg.prob))
+    def put_text(var1, var2, var3, result1):
+        print(var1)
+        print(var2)
+        print(var3)
+        st = convert_statement(var1)
+        top = convert_topic(var2)
+        spek = convert_speaker(var3)
+        ans = predict(st, top, spek)
+        if ans == [0]:
+            res = "false"
+        else:
+            res = "true"
+        print(ans)
+        result1.config(text=res)
 
     @staticmethod
     def clear_it(result1, result2):
@@ -94,6 +104,16 @@ class TestingPage(tk.Frame):
         label = tk.Label(self, padx=150, text="Testing Algorithm", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
 
+        label1 = tk.Label(self, text="Statement")
+        label2 = tk.Label(self, text="Topic")
+        label3 = tk.Label(self, text="Speaker")
+
+        entry1 = tk.Entry(self)
+        entry2 = tk.Entry(self)
+
+        # label2 = tk.Label(self, text="Topic").grid(row=1)
+        # label3 = tk.Label(self, text="Speaker").grid(row=2)
+
         result1 = tk.Label(font=LARGE_FONT,
                            fg='green')
         result2 = tk.Label(pady=5,
@@ -102,9 +122,16 @@ class TestingPage(tk.Frame):
         scroll = tkst.ScrolledText(self, width=45, height=15, padx=5, pady=10)
         button = ttk.Button(self,
                             text='Check', width=25,
-                            command=lambda: self.put_text(scroll.get('1.0', 'end-1c'), result1, result2))
+                            command=lambda: self.put_text(scroll.get('1.0', 'end-1c'),entry1.get(),entry2.get(),result1))
 
+        label1.pack()
         scroll.pack()
+        label2.pack()
+        entry1.pack()
+        label3.pack()
+        entry2.pack()
+        space = tk.Label(self, width=10)
+        space.pack()
         button.pack()
         space = tk.Label(self, width=10)
         space.pack()
@@ -125,10 +152,4 @@ class TestingPage(tk.Frame):
 
 app = ShowGui()
 app.mainloop()
-
-'''
-remove verdict after pressing 'Go back to home'
-and that also in respective colour according to the result
-'''
-
 
