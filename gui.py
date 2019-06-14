@@ -4,6 +4,7 @@ import tkinter.scrolledtext as tkst
 # from prediction import detecting_fake_news
 from conversion import convert_speaker, convert_statement, convert_topic
 from NBtwo import predict, confusion_mtarix
+from data_processing import encode_data
 
 LARGE_FONT = ("Verdana", 12)
 SMALL_FONT = ("Verdana", 10)
@@ -78,7 +79,8 @@ class TrainingPage(tk.Frame):
         entry2.pack()
         space = tk.Label(self, width=10)
         space.pack()
-        button = ttk.Button(self, text="Train")
+        button = ttk.Button(self, text="Train",
+                            command=lambda: encode_data())
         button.pack()
         space = tk.Label(self, width=10)
         space.pack()
