@@ -144,11 +144,11 @@ class TestingPage(tk.Frame):
         ans = predict(st, top, spek)
         if ans == [0]:
             res = "False"
-            result1.config(text=res, fg='red', font=LARGE_FONT)
+            result1.config(text=res, bg='red', fg='white', font=LARGE_FONT)
             result1.update()
         else:
             res = "True"
-            result1.config(text=res, fg='green', font=LARGE_FONT)
+            result1.config(text=res, bg='green', fg='white', font=LARGE_FONT)
             result1.update()
         print(ans)
 
@@ -169,7 +169,7 @@ class TestingPage(tk.Frame):
         entry1 = tk.Entry(self, width=45)
         entry2 = tk.Entry(self, width=45)
 
-        result1 = tk.Label(font=LARGE_FONT)
+        result1 = tk.Label(font=LARGE_FONT, width=20)
 
         scroll = tkst.ScrolledText(self, width=45, height=15, padx=5, pady=10)
         button = ttk.Button(self,
