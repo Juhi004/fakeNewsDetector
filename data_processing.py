@@ -86,9 +86,25 @@ def encode_data():
     vectorizerSpeaker.fit(text3)
 
     for i in range(0, n):
-        vector1 = vectorizerStatement.transform([train_dataset.cell_value(i, 1)])
-        vector2 = vectorizerTopic.transform([train_dataset.cell_value(i, 2)])
-        vector3 = vectorizerSpeaker.transform([train_dataset.cell_value(i, 3)])
+        word_tokens = word_tokenize(train_dataset.cell_value(i, 1))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        vector1 = vectorizerStatement.transform(filtered_sentence)
+
+        filtered_sentence = ""
+        word_tokens = word_tokenize(train_dataset.cell_value(i, 2))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        vector2 = vectorizerStatement.transform(filtered_sentence)
+
+        filtered_sentence = ""
+        word_tokens = word_tokenize(train_dataset.cell_value(i, 3))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        vector3 = vectorizerStatement.transform(filtered_sentence)
 
         arr1 = vector1.toarray()
         arr2 = vector2.toarray()
@@ -166,9 +182,25 @@ def encode_data():
     # print(n)
 
     for i in range(0, m):
-        vector1 = vectorizerStatement.transform([test_dataset.cell_value(i, 1)])
-        vector2 = vectorizerTopic.transform([test_dataset.cell_value(i, 2)])
-        vector3 = vectorizerSpeaker.transform([test_dataset.cell_value(i, 3)])
+        word_tokens = word_tokenize(test_dataset.cell_value(i, 1))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        vector1 = vectorizerStatement.transform(filtered_sentence)
+
+        filtered_sentence = ""
+        word_tokens = word_tokenize(test_dataset.cell_value(i, 2))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        vector2 = vectorizerStatement.transform(filtered_sentence)
+
+        filtered_sentence = ""
+        word_tokens = word_tokenize(test_dataset.cell_value(i, 3))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        vector3 = vectorizerStatement.transform(filtered_sentence)
 
         arr1 = vector1.toarray()
         arr2 = vector2.toarray()
