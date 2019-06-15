@@ -144,11 +144,11 @@ class TestingPage(tk.Frame):
         ans = predict(st, top, spek)
         if ans == [0]:
             res = "False"
-            result1.config(text=res, bg='red', fg='white', font=LARGE_FONT)
+            result1.config(text=res,fg='red', font=LARGE_FONT)
             result1.update()
         else:
             res = "True"
-            result1.config(text=res, bg='green', fg='white', font=LARGE_FONT)
+            result1.config(text=res, fg='green', font=LARGE_FONT)
             result1.update()
         print(ans)
 
