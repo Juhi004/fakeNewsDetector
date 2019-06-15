@@ -1,4 +1,5 @@
-# imporing libraries
+# File to compare the performance of my implementation from scratch and Python's inbuilt library of Naive Bayes
+# Results shows that performance is same
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -99,7 +100,7 @@ plt.ylim(X2.min(), X2.max())
 for i, j in enumerate(np.unique(y_set)):
     plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
                 c=ListedColormap(('red', 'green'))(i), label=j, marker='.')
-plt.title('Naive Bayes Classification (Training set)')
+plt.title('Naive Bayes Classification (inbuilt) (Training set)')
 plt.xlabel('Statement')
 plt.ylabel('Subject')
 plt.legend()
@@ -115,8 +116,8 @@ plt.xlim(X1.min(), X1.max())
 plt.ylim(X2.min(), X2.max())
 for i, j in enumerate(np.unique(y_set)):
     plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
-                c = ListedColormap(('red', 'green'))(i), label = j,marker='.')
-plt.title('Naive Bayes Classification (Test set)')
+                c=ListedColormap(('red', 'green'))(i), label=j, marker='.')
+plt.title('Naive Bayes Classification (inbuilt) (Test set)')
 plt.xlabel('Statement')
 plt.ylabel('Subject')
 plt.legend()

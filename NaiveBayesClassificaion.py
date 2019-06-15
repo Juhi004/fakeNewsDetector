@@ -1,4 +1,4 @@
-import pandas as pd
+# Implementation of Naive Bayes from scratch
 import numpy as np
 
 

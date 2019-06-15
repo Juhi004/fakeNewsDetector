@@ -1,3 +1,4 @@
+# GUI of the model
 import tkinter as tk
 from tkinter import ttk
 import tkinter.scrolledtext as tkst
@@ -18,7 +19,7 @@ class ShowGui(tk.Tk):
 
         tk.Tk.__init__(self, *args, **kwargs)
 
-        # tk.Tk.iconbitmap(self, default="something.ico")    ....This command is used to change the icon
+        # tk.Tk.iconbitmap(self, default="something.ico")    ....Command for changing the icon
 
         tk.Tk.wm_title(self, "Fake News Detector")
 
@@ -81,7 +82,7 @@ class TrainingPage(tk.Frame):
         space = tk.Label(self, width=10)
         space.pack()
         button = ttk.Button(self, text="Train",
-                            command=lambda: encode_data(entry1.get(), entry2.get()))
+                            command=lambda: encode_data())
         button.pack()
         space = tk.Label(self, width=10)
         space.pack()
@@ -89,7 +90,7 @@ class TrainingPage(tk.Frame):
                              command=lambda: controller.show_frame(StartPage))
         button1.pack()
         train_path = entry1.get()
-        print("oo "+ str(train_path))
+        print("oo " + str(train_path))
         test_path = entry1.get()
         print("oo "+ str(test_path))
         # send these paths to data_processing and start encoding process
@@ -142,16 +143,19 @@ class TestingPage(tk.Frame):
         spek = convert_speaker(var3)
         ans = predict(st, top, spek)
         if ans == [0]:
-            res = "false"
+            res = "False"
+            result1.config(text=res, fg='red', font=LARGE_FONT)
+            result1.update()
         else:
-            res = "true"
+            res = "True"
+            result1.config(text=res, fg='green', font=LARGE_FONT)
+            result1.update()
         print(ans)
-        result1.config(text=res)
+
 
     @staticmethod
-    def clear_it(result1, result2):
+    def clear_it(result1):
         result1.config(text="")
-        result2.config(text="")
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -162,13 +166,10 @@ class TestingPage(tk.Frame):
         label2 = tk.Label(self, text="Topic")
         label3 = tk.Label(self, text="Speaker")
 
-        entry1 = tk.Entry(self)
-        entry2 = tk.Entry(self)
+        entry1 = tk.Entry(self, width=45)
+        entry2 = tk.Entry(self, width=45)
 
-        result1 = tk.Label(font=LARGE_FONT,
-                           fg='green')
-        result2 = tk.Label(pady=5,
-                           font=SMALL_FONT)
+        result1 = tk.Label(font=LARGE_FONT)
 
         scroll = tkst.ScrolledText(self, width=45, height=15, padx=5, pady=10)
         button = ttk.Button(self,
@@ -188,17 +189,18 @@ class TestingPage(tk.Frame):
         space.pack()
         clear = ttk.Button(self,
                            text="Clear",
-                           command=lambda: self.clear_it(result1, result2))
+                           command=lambda: self.clear_it(result1))
         clear.pack()
 
         result1.pack()
-        result2.pack()
         space = tk.Label(self, width=10)
         space.pack()
         button1 = ttk.Button(self,
                              text="Back to Home",
                              command=lambda: controller.show_frame(StartPage))
-        button1.pack()
+        button1.pack(side='right')
+        space = tk.Label(self, width=10)
+        space.pack()
 
 
 app = ShowGui()
