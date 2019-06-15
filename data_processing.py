@@ -10,7 +10,8 @@ from matplotlib import pyplot
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import nltk
-nltk.download('punkt')
+
+# nltk.download('punkt')
 
 # Give the location of the file
 loc1 = "C:/Users/DELL/PycharmProjects/TrialAndTest/train.xlsx"
