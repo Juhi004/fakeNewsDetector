@@ -90,21 +90,21 @@ def encode_data():
         for w in word_tokens:
             if w not in stop_words:
                 filtered_sentence = filtered_sentence + " " + w
-        vector1 = vectorizerStatement.transform(filtered_sentence)
+        vector1 = vectorizerStatement.transform([filtered_sentence])
 
         filtered_sentence = ""
         word_tokens = word_tokenize(train_dataset.cell_value(i, 2))
         for w in word_tokens:
             if w not in stop_words:
                 filtered_sentence = filtered_sentence + " " + w
-        vector2 = vectorizerStatement.transform(filtered_sentence)
+        vector2 = vectorizerStatement.transform([filtered_sentence])
 
         filtered_sentence = ""
         word_tokens = word_tokenize(train_dataset.cell_value(i, 3))
         for w in word_tokens:
             if w not in stop_words:
                 filtered_sentence = filtered_sentence + " " + w
-        vector3 = vectorizerStatement.transform(filtered_sentence)
+        vector3 = vectorizerStatement.transform([filtered_sentence])
 
         arr1 = vector1.toarray()
         arr2 = vector2.toarray()
@@ -186,21 +186,21 @@ def encode_data():
         for w in word_tokens:
             if w not in stop_words:
                 filtered_sentence = filtered_sentence + " " + w
-        vector1 = vectorizerStatement.transform(filtered_sentence)
+        vector1 = vectorizerStatement.transform([filtered_sentence])
 
         filtered_sentence = ""
         word_tokens = word_tokenize(test_dataset.cell_value(i, 2))
         for w in word_tokens:
             if w not in stop_words:
                 filtered_sentence = filtered_sentence + " " + w
-        vector2 = vectorizerStatement.transform(filtered_sentence)
+        vector2 = vectorizerStatement.transform([filtered_sentence])
 
         filtered_sentence = ""
         word_tokens = word_tokenize(test_dataset.cell_value(i, 3))
         for w in word_tokens:
             if w not in stop_words:
                 filtered_sentence = filtered_sentence + " " + w
-        vector3 = vectorizerStatement.transform(filtered_sentence)
+        vector3 = vectorizerStatement.transform([filtered_sentence])
 
         arr1 = vector1.toarray()
         arr2 = vector2.toarray()
