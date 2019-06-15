@@ -7,11 +7,11 @@ from matplotlib.colors import ListedColormap
 from sklearn.naive_bayes import GaussianNB
 
 # reading dataset
-train = pd.read_csv('new_train.csv')
+train = pd.read_csv('final_train.csv')
 print(train.head(10))
 train.describe()
 
-test = pd.read_csv('new_test.csv')
+test = pd.read_csv('final_test.csv')
 print(test.head(10))
 test.describe()
 

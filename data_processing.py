@@ -7,11 +7,12 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 from scipy.stats import pearsonr
 from matplotlib import pyplot
-
-# C:/Users/DELL/PycharmProjects/TrialAndTest/
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+import nltk
+nltk.download('punkt')
 
 # Give the location of the file
-# data_folder = Path("C:/Users/DELL/PycharmProjects/TrialAndTest/")
 loc1 = "C:/Users/DELL/PycharmProjects/TrialAndTest/train.xlsx"
 loc2 = "C:/Users/DELL/PycharmProjects/TrialAndTest/test.xlsx"
 # To open Workbook
@@ -20,17 +21,8 @@ wb21 = xlrd.open_workbook("test.xlsx")
 train_dataset = wb11.sheet_by_index(0)
 test_dataset = wb21.sheet_by_index(0)
 
-# loc1 = data_folder / "new_train.xlsx"
-# loc2 = data_folder / "new_test.xlsx"
-# To open Workbook
-# workbook1 = openpyxl.load_workbook('new_train.xlsx')
-# workbook2 = openpyxl.load_workbook('new_test.xlsx')
-# train = workbook1.worksheets[0]
-# test = workbook2.worksheets[0]
-
 # converting training data set
 n = train_dataset.nrows
-#print(n)
 
 vectorizerStatement = TfidfVectorizer()
 vectorizerTopic = TfidfVectorizer()
@@ -41,6 +33,9 @@ workbook1 = openpyxl.load_workbook('new_train.xlsx')
 workbook2 = openpyxl.load_workbook('new_test.xlsx')
 train = workbook1.worksheets[0]
 test = workbook2.worksheets[0]
+
+stop_words = set(stopwords.words('english'))
+
 
 def encode_data():
 
@@ -59,13 +54,32 @@ def encode_data():
     speaker = []
     verdict = []
 
+    filtered_sentence = ""
+
     n = train_dataset.nrows
     # print(n)
 
     for i in range(1, n):
-        text1.append(train_dataset.cell_value(i, 1))
-        text2.append(train_dataset.cell_value(i, 2))
-        text3.append(train_dataset.cell_value(i, 3))
+        word_tokens = word_tokenize(train_dataset.cell_value(i, 1))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        text1.append(filtered_sentence)
+
+        filtered_sentence = ""
+        word_tokens = word_tokenize(train_dataset.cell_value(i, 2))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        text2.append(filtered_sentence)
+
+        filtered_sentence = ""
+        word_tokens = word_tokenize(train_dataset.cell_value(i, 3))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        text3.append(filtered_sentence)
+
     vectorizerStatement.fit(text1)
     vectorizerTopic.fit(text2)
     vectorizerSpeaker.fit(text3)
@@ -147,10 +161,10 @@ def encode_data():
     speaker = []
     verdict = []
 
-    n = test_dataset.nrows
+    m = test_dataset.nrows
     # print(n)
 
-    for i in range(0, n):
+    for i in range(0, m):
         vector1 = vectorizerStatement.transform([test_dataset.cell_value(i, 1)])
         vector2 = vectorizerTopic.transform([test_dataset.cell_value(i, 2)])
         vector3 = vectorizerSpeaker.transform([test_dataset.cell_value(i, 3)])
@@ -201,22 +215,22 @@ def encode_data():
         speaker.append(ans3)
         verdict.append(test_dataset.cell_value(i, 0))
 
-    for i in range(1, n):
+    for i in range(1, m):
         j = test.cell(row=i, column=1)
         j.value = verdict[i]
     workbook1.save('new_test.xlsx')
 
-    for i in range(1, n):
+    for i in range(1, m):
         j = test.cell(row=i, column=2)
         j.value = statement[i]
     workbook1.save('new_test.xlsx')
 
-    for i in range(1, n):
+    for i in range(1, m):
         j = test.cell(row=i, column=3)
         j.value = topics[i]
     workbook1.save('new_test.xlsx')
 
-    for i in range(1, n):
+    for i in range(1, m):
         j = test.cell(row=i, column=4)
         j.value = speaker[i]
     workbook1.save('new_test.xlsx')
