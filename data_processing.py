@@ -17,13 +17,10 @@ import nltk
 loc1 = "C:/Users/DELL/PycharmProjects/TrialAndTest/train.xlsx"
 loc2 = "C:/Users/DELL/PycharmProjects/TrialAndTest/test.xlsx"
 # To open Workbook
-wb11 = xlrd.open_workbook("train.xlsx")
-wb21 = xlrd.open_workbook("test.xlsx")
-train_dataset = wb11.sheet_by_index(0)
-test_dataset = wb21.sheet_by_index(0)
 
-# converting training data set
-n = train_dataset.nrows
+# fileName_one = "train.xlsx"
+# fileName_two = "test.xlsx"
+
 
 vectorizerStatement = TfidfVectorizer()
 vectorizerTopic = TfidfVectorizer()
@@ -38,7 +35,9 @@ test = workbook2.worksheets[0]
 stop_words = set(stopwords.words('english'))
 
 
-def encode_data():
+def encode_data(fileName_one, fileName_two):
+
+    print("starting")
 
     """
     wb11 = xlrd.open_workbook(train_path)
@@ -46,6 +45,16 @@ def encode_data():
     train_dataset = wb11.sheet_by_index(0)
     test_dataset = wb21.sheet_by_index(0)
     """
+
+    wb11 = xlrd.open_workbook(fileName_one)
+    wb21 = xlrd.open_workbook(fileName_two)
+    train_dataset = wb11.sheet_by_index(0)
+    test_dataset = wb21.sheet_by_index(0)
+
+    print("resd the files")
+
+    # converting training data set
+    n = train_dataset.nrows
 
     text1 = []
     text2 = []
@@ -59,6 +68,8 @@ def encode_data():
 
     n = train_dataset.nrows
     # print(n)
+
+    print("starting encoding")
 
     for i in range(1, n):
         word_tokens = word_tokenize(train_dataset.cell_value(i, 1))
@@ -268,5 +279,7 @@ def encode_data():
         j.value = speaker[i]
     workbook1.save('new_test.xlsx')
 
+    if __name__ == "__encode_data__":
+        encode_data(var1, var2)
 
-encode_data()
+# encode_data()

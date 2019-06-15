@@ -11,6 +11,7 @@ SMALL_FONT = ("Verdana", 10)
 
 print("starting of gui code")
 
+
 class ShowGui(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -19,7 +20,7 @@ class ShowGui(tk.Tk):
 
         # tk.Tk.iconbitmap(self, default="something.ico")    ....This command is used to change the icon
 
-        tk.Tk.wm_title(self, "Fake News Detection")
+        tk.Tk.wm_title(self, "Fake News Detector")
 
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
@@ -80,7 +81,7 @@ class TrainingPage(tk.Frame):
         space = tk.Label(self, width=10)
         space.pack()
         button = ttk.Button(self, text="Train",
-                            command=lambda: encode_data())
+                            command=lambda: encode_data(entry1.get(), entry2.get()))
         button.pack()
         space = tk.Label(self, width=10)
         space.pack()
@@ -88,7 +89,9 @@ class TrainingPage(tk.Frame):
                              command=lambda: controller.show_frame(StartPage))
         button1.pack()
         train_path = entry1.get()
+        print("oo "+ str(train_path))
         test_path = entry1.get()
+        print("oo "+ str(test_path))
         # send these paths to data_processing and start encoding process
 
 

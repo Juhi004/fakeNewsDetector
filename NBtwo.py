@@ -4,8 +4,8 @@ import pandas as pd
 print("stating NBtwo")
 
 # reading dataset
-train = pd.read_csv('new_train.csv')
-test = pd.read_csv('new_test.csv')
+train = pd.read_csv('final_train.csv')
+test = pd.read_csv('final_test.csv')
 
 features = train.iloc[:, [1, 2, 3]].values
 label = train.iloc[:, 0].values
@@ -14,11 +14,10 @@ y_test = test.iloc[:, 0].values
 
 print("Files have been read")
 
-
-#Import Gaussian Naive Bayes model
+# Import Gaussian Naive Bayes model
 from sklearn.naive_bayes import GaussianNB
 
-#Create a Gaussian Classifier
+# Create a Gaussian Classifier
 model = GaussianNB()
 
 # Train the model using the training sets
@@ -53,4 +52,3 @@ def confusion_mtarix():
 
 if __name__ == "__confusion_mtarix__":
     confusion_mtarix()
-
