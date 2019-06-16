@@ -2,7 +2,6 @@
 import tkinter as tk
 from tkinter import ttk
 import tkinter.scrolledtext as tkst
-# from prediction import detecting_fake_news
 from conversion import convert_speaker, convert_statement, convert_topic
 from NBtwo import predict, confusion_mtarix
 from data_processing import encode_data
@@ -70,17 +69,16 @@ class TrainingPage(tk.Frame):
         self.update()
         print("Sending heartbeats")
 
-    def onTrain(self):
-        if not self.isBusy :
+    def onTrain(self, var1, var2):
+        if not self.isBusy:
             self.isBusy = True
-            encode_data(self)
+            encode_data(self, var1, var2)
             self.isBusy = False
             self.config(cursor="")
 
     def onBackToHome(self):
-        if not self.isBusy :
+        if not self.isBusy:
             self.controller.show_frame(StartPage)
-
 
     def __init__(self, parent, controller):
         self.isBusy = False
@@ -101,7 +99,7 @@ class TrainingPage(tk.Frame):
         space = tk.Label(self, width=10)
         space.pack()
         button = ttk.Button(self, text="Train",
-                            command=lambda: self.onTrain())
+                            command=lambda: self.onTrain(entry1.get(), entry2.get()))
         button.pack()
         space = tk.Label(self, width=10)
         space.pack()
@@ -109,18 +107,50 @@ class TrainingPage(tk.Frame):
                              command=lambda: self.onBackToHome())
         button1.pack()
         train_path = entry1.get()
-        print("oo " + str(train_path))
         test_path = entry1.get()
-        print("oo "+ str(test_path))
         # send these paths to data_processing and start encoding process
 
 
 class PerformancePage(tk.Frame):
 
+    def show_performance(self):
+        confusion_matrix = confusion_mtarix()
+        # row1 = confusion_matrix[0][1]
+        print(confusion_matrix)
+        matrix = tk.Label(self, text="Confusion Matrix:")
+        matrix.pack(pady=10, padx=10)
+        values1 = tk.Label(self, text=str(confusion_matrix[0][0]) + "  " + str(confusion_matrix[0][1]))
+        values1.pack()
+        values2 = tk.Label(self, text=str(confusion_matrix[1][0]) + "  " + str(confusion_matrix[1][1]))
+        values2.pack(pady=10, padx=10)
+        total = confusion_matrix[0][0] + confusion_matrix[0][1] + confusion_matrix[1][0] + confusion_matrix[1][1]
+        precision = confusion_matrix[1][1] / (confusion_matrix[0][1] + confusion_matrix[1][1])
+        accuracy = (confusion_matrix[1][1] + confusion_matrix[0][0]) / total
+        sensitivity = confusion_matrix[1][1] / (confusion_matrix[1][0] + confusion_matrix[1][1])
+        prevalance = (confusion_matrix[1][0] + confusion_matrix[1][1]) / total
+        specificity = confusion_matrix[0][0] / (confusion_matrix[0][0] + confusion_matrix[0][1])
+        mis_rate = (confusion_matrix[0][1] + confusion_matrix[1][0]) / total
+        l1 = tk.Label(self, text="Precision- " + str(precision)).pack()
+        l1 = tk.Label(self, text="Accuracy- " + str(accuracy)).pack()
+        l1 = tk.Label(self, text="Sensitivity- " + str(sensitivity)).pack()
+        l1 = tk.Label(self, text="Prevalance- " + str(prevalance)).pack()
+        l1 = tk.Label(self, text="Specificity- " + str(specificity)).pack()
+        l1 = tk.Label(self, text="Miscalculation Rate- " + str(mis_rate)).pack()
+        space = tk.Label(self, width=10)
+        space.pack()
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Performance of Algorithm", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
+        space = tk.Label(self, width=10)
+        space.pack()
+        button = ttk.Button(self, text="Show Performance",
+                             command=lambda: self.show_performance())
+        button.pack()
+        space = tk.Label(self, width=10)
+        space.pack()
+        """
         confusion_matrix = confusion_mtarix()
         # row1 = confusion_matrix[0][1]
         print(confusion_matrix)
@@ -145,6 +175,7 @@ class PerformancePage(tk.Frame):
         l1 = tk.Label(self, text="Miscalculation Rate- "+str(mis_rate)).pack()
         space = tk.Label(self, width=10)
         space.pack()
+        """
         button1 = ttk.Button(self, text="Back to Home",
                              command=lambda: controller.show_frame(StartPage))
         button1.pack()
@@ -175,14 +206,13 @@ class TestingPage(tk.Frame):
 #    @staticmethod
     def clear_it(self):
         self.result1.config(text="")
-
-    def onBackToHome(self, controller):
-        self.clear_it()
         self.entry1.delete(0, 'end')
         self.entry2.delete(0, 'end')
         self.scroll.delete(1.0, 'end')
-        controller.show_frame(StartPage)
 
+    def onBackToHome(self, controller):
+        self.clear_it()
+        controller.show_frame(StartPage)
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)

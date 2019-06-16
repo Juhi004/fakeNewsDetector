@@ -5,62 +5,62 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+import pandas as pd
+from NBtwo import create_model
 import nltk
 
 # nltk.download('punkt')
 
-
 vectorizerStatement = TfidfVectorizer()
 vectorizerTopic = TfidfVectorizer()
 vectorizerSpeaker = TfidfVectorizer()
-
-wb11 = xlrd.open_workbook("train.xlsx")
-wb21 = xlrd.open_workbook("test.xlsx")
-train_dataset = wb11.sheet_by_index(0)
-test_dataset = wb21.sheet_by_index(0)
 
 workbook1 = openpyxl.load_workbook('new_train.xlsx')
 workbook2 = openpyxl.load_workbook('new_test.xlsx')
 train = workbook1.worksheets[0]
 test = workbook2.worksheets[0]
 
-stop_words = set(stopwords.words('english'))
 
-text1 = []
-text2 = []
-text3 = []
+def encode_data(hB, train_file, test_file):
+    wb11 = xlrd.open_workbook(train_file)
+    wb21 = xlrd.open_workbook(test_file)
+    train_dataset = wb11.sheet_by_index(0)
+    test_dataset = wb21.sheet_by_index(0)
 
-n = train_dataset.nrows
+    stop_words = set(stopwords.words('english'))
 
-filtered_sentence = ""
+    text1 = []
+    text2 = []
+    text3 = []
 
-for i in range(1, n):
-    word_tokens = word_tokenize(train_dataset.cell_value(i, 1))
-    for w in word_tokens:
-        if w not in stop_words:
-            filtered_sentence = filtered_sentence + " " + w
-    text1.append(filtered_sentence)
+    n = train_dataset.nrows
 
     filtered_sentence = ""
-    word_tokens = word_tokenize(train_dataset.cell_value(i, 2))
-    for w in word_tokens:
-        if w not in stop_words:
-            filtered_sentence = filtered_sentence + " " + w
-    text2.append(filtered_sentence)
 
-    filtered_sentence = ""
-    word_tokens = word_tokenize(train_dataset.cell_value(i, 3))
-    for w in word_tokens:
-        if w not in stop_words:
-            filtered_sentence = filtered_sentence + " " + w
-    text3.append(filtered_sentence)
+    for i in range(1, n):
+        word_tokens = word_tokenize(train_dataset.cell_value(i, 1))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        text1.append(filtered_sentence)
 
-vectorizerStatement.fit(text1)
-vectorizerTopic.fit(text2)
-vectorizerSpeaker.fit(text3)
+        filtered_sentence = ""
+        word_tokens = word_tokenize(train_dataset.cell_value(i, 2))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        text2.append(filtered_sentence)
 
+        filtered_sentence = ""
+        word_tokens = word_tokenize(train_dataset.cell_value(i, 3))
+        for w in word_tokens:
+            if w not in stop_words:
+                filtered_sentence = filtered_sentence + " " + w
+        text3.append(filtered_sentence)
 
-def encode_data(hB):
+    vectorizerStatement.fit(text1)
+    vectorizerTopic.fit(text2)
+    vectorizerSpeaker.fit(text3)
 
     # converting training data set
 
@@ -75,8 +75,6 @@ def encode_data(hB):
     # print(n)
 
     print("starting encoding")
-
-    # /////
 
     for i in range(0, n):
         hB.onHeartBeat()
@@ -263,7 +261,16 @@ def encode_data(hB):
         j.value = speaker[i]
     workbook2.save('new_test.xlsx')
 
-    if __name__ == "__encode_data__":
+    df = pd.read_excel("./new_train.xlsx")
+    df.to_csv("./final_train.csv", sep=",")
+
+    df = pd.read_excel("./new_test.xlsx")
+    df.to_csv("./final_test.csv", sep=",")
+
+    create_model()
+
+
+if __name__ == "__encode_data__":
         encode_data()
 
 # encode_data()
