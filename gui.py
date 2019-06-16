@@ -172,9 +172,17 @@ class TestingPage(tk.Frame):
         print(ans)
 
 
-    @staticmethod
-    def clear_it(result1):
-        result1.config(text="")
+#    @staticmethod
+    def clear_it(self):
+        self.result1.config(text="")
+
+    def onBackToHome(self, controller):
+        self.clear_it()
+        self.entry1.delete(0, 'end')
+        self.entry2.delete(0, 'end')
+        self.scroll.delete(1.0, 'end')
+        controller.show_frame(StartPage)
+
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -185,22 +193,22 @@ class TestingPage(tk.Frame):
         label2 = tk.Label(self, text="Topic")
         label3 = tk.Label(self, text="Speaker")
 
-        entry1 = tk.Entry(self, width=45)
-        entry2 = tk.Entry(self, width=45)
+        self.entry1 = tk.Entry(self, width=45)
+        self.entry2 = tk.Entry(self, width=45)
 
-        result1 = tk.Label(font=LARGE_FONT, width=20)
+        self.result1 = tk.Label(font=LARGE_FONT, width=20)
 
-        scroll = tkst.ScrolledText(self, width=45, height=15, padx=5, pady=10)
+        self.scroll = tkst.ScrolledText(self, width=45, height=15, padx=5, pady=10)
         button = ttk.Button(self,
                             text='Check', width=25,
-                            command=lambda: self.put_text(scroll.get('1.0', 'end-1c'),entry1.get(),entry2.get(),result1))
+                            command=lambda: self.put_text(self.scroll.get('1.0', 'end-1c'),self.entry1.get(),self.entry2.get(),self.result1))
 
         label1.pack()
-        scroll.pack()
+        self.scroll.pack()
         label2.pack()
-        entry1.pack()
+        self.entry1.pack()
         label3.pack()
-        entry2.pack()
+        self.entry2.pack()
         space = tk.Label(self, width=10)
         space.pack()
         button.pack()
@@ -208,15 +216,15 @@ class TestingPage(tk.Frame):
         space.pack()
         clear = ttk.Button(self,
                            text="Clear",
-                           command=lambda: self.clear_it(result1))
+                           command=lambda: self.clear_it())
         clear.pack()
 
-        result1.pack()
+        self.result1.pack()
         space = tk.Label(self, width=10)
         space.pack()
         button1 = ttk.Button(self,
                              text="Back to Home",
-                             command=lambda: controller.show_frame(StartPage))
+                             command=lambda: self.onBackToHome(controller))
         button1.pack(side='right')
         space = tk.Label(self, width=10)
         space.pack()
