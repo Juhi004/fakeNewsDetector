@@ -60,7 +60,7 @@ vectorizerTopic.fit(text2)
 vectorizerSpeaker.fit(text3)
 
 
-def encode_data():
+def encode_data(hB):
 
     # converting training data set
 
@@ -79,6 +79,7 @@ def encode_data():
     # /////
 
     for i in range(0, n):
+        hB.onHeartBeat()
         word_tokens = word_tokenize(train_dataset.cell_value(i, 1))
         for w in word_tokens:
             if w not in stop_words:
@@ -144,6 +145,7 @@ def encode_data():
         topics.append(ans2)
         speaker.append(ans3)
         verdict.append(train_dataset.cell_value(i, 0))
+        hB.onHeartBeat()
 
     for i in range(1, n):
         j = train.cell(row=i, column=1)

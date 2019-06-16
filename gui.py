@@ -65,7 +65,26 @@ class StartPage(tk.Frame):
 
 class TrainingPage(tk.Frame):
 
+    def onHeartBeat(self):
+        self.config(cursor="wait")
+        self.update()
+        print("Sending heartbeats")
+
+    def onTrain(self):
+        if not self.isBusy :
+            self.isBusy = True
+            encode_data(self)
+            self.isBusy = False
+            self.config(cursor="")
+
+    def onBackToHome(self):
+        if not self.isBusy :
+            self.controller.show_frame(StartPage)
+
+
     def __init__(self, parent, controller):
+        self.isBusy = False
+        self.controller = controller
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Training Algorithm", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
@@ -82,12 +101,12 @@ class TrainingPage(tk.Frame):
         space = tk.Label(self, width=10)
         space.pack()
         button = ttk.Button(self, text="Train",
-                            command=lambda: encode_data())
+                            command=lambda: self.onTrain())
         button.pack()
         space = tk.Label(self, width=10)
         space.pack()
         button1 = ttk.Button(self, text="Back to Home",
-                             command=lambda: controller.show_frame(StartPage))
+                             command=lambda: self.onBackToHome())
         button1.pack()
         train_path = entry1.get()
         print("oo " + str(train_path))
