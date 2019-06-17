@@ -2,8 +2,6 @@
 import numpy as np
 import pandas as pd
 
-print("stating NBtwo")
-
 def create_model():
     global train, test, X_test, y_test, model
     # reading dataset
@@ -15,8 +13,6 @@ def create_model():
     X_test = test.iloc[:, [2, 3, 4]].values
     y_test = test.iloc[:, 1].values
 
-    print("Files have been read")
-
     # Import Gaussian Naive Bayes model
     from sklearn.naive_bayes import GaussianNB
 
@@ -26,35 +22,9 @@ def create_model():
     # Train the model using the training sets
     model.fit(features, label)
 
-    print("model has been created and features have been fitted")
-
 
 if __name__ == "__create_model__":
     create_model()
-
-"""
-# reading dataset
-train = pd.read_csv('final_train.csv')
-test = pd.read_csv('final_test.csv')
-
-features = train.iloc[:, [1, 2, 3]].values
-label = train.iloc[:, 0].values
-X_test = test.iloc[:, [1, 2, 3]].values
-y_test = test.iloc[:, 0].values
-
-print("Files have been read")
-
-# Import Gaussian Naive Bayes model
-from sklearn.naive_bayes import GaussianNB
-
-# Create a Gaussian Classifier
-model = GaussianNB()
-
-# Train the model using the training sets
-model.fit(features, label)
-
-print("model has been created and features have been fitted")
-"""
 
 
 def predict(v1, v2, v3):

@@ -1,4 +1,5 @@
 # File to compare the performance of my implementation from scratch and Python's inbuilt library of Naive Bayes
+# Here features include statement and the subject of the statement
 # Results shows that performance is same
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,7 +17,6 @@ test = pd.read_csv('final_test.csv')
 print(test.head(10))
 test.describe()
 
-print("start")
 # training and testing set size
 train_size = train.shape[0]
 test_size = test.shape[0]
@@ -24,7 +24,6 @@ print("Training set size : " + str(train_size))
 print("Testing set size : " + str(test_size))
 
 # Getting features from dataset
-# Data=Data.sample(frac=1)
 X_train = train.iloc[:, [1, 2]].values
 y_train = train.iloc[:, 0].values
 X_test = test.iloc[:, [1, 2]].values

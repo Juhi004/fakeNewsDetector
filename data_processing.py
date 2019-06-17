@@ -72,9 +72,6 @@ def encode_data(hB, train_file, test_file):
     filtered_sentence = ""
 
     n = train_dataset.nrows
-    # print(n)
-
-    print("starting encoding")
 
     for i in range(0, n):
         hB.onHeartBeat()
@@ -172,7 +169,6 @@ def encode_data(hB, train_file, test_file):
     verdict = []
 
     m = test_dataset.nrows
-    # print(n)
 
     for i in range(0, m):
         word_tokens = word_tokenize(test_dataset.cell_value(i, 1))
@@ -272,5 +268,3 @@ def encode_data(hB, train_file, test_file):
 
 if __name__ == "__encode_data__":
         encode_data()
-
-# encode_data()
