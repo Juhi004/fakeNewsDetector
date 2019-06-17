@@ -9,8 +9,6 @@ from data_processing import encode_data
 LARGE_FONT = ("Verdana", 12)
 SMALL_FONT = ("Verdana", 10)
 
-print("starting of gui code")
-
 
 class ShowGui(tk.Tk):
 
@@ -106,23 +104,19 @@ class TrainingPage(tk.Frame):
         button1 = ttk.Button(self, text="Back to Home",
                              command=lambda: self.onBackToHome())
         button1.pack()
-        train_path = entry1.get()
-        test_path = entry1.get()
-        # send these paths to data_processing and start encoding process
 
 
 class PerformancePage(tk.Frame):
 
     def show_performance(self):
         confusion_matrix = confusion_mtarix()
-        # row1 = confusion_matrix[0][1]
         print(confusion_matrix)
-        matrix = tk.Label(self, text="Confusion Matrix:")
-        matrix.pack(pady=10, padx=10)
-        values1 = tk.Label(self, text=str(confusion_matrix[0][0]) + "  " + str(confusion_matrix[0][1]))
-        values1.pack()
-        values2 = tk.Label(self, text=str(confusion_matrix[1][0]) + "  " + str(confusion_matrix[1][1]))
-        values2.pack(pady=10, padx=10)
+        self.matrix.config(text="Confusion Matrix:")
+        self.matrix.update()
+        self.values1.config(text=str(confusion_matrix[0][0]) + "  " + str(confusion_matrix[0][1]))
+        self.values1.update()
+        self.values2.config(text=str(confusion_matrix[1][0]) + "  " + str(confusion_matrix[1][1]))
+        self.values2.update()
         total = confusion_matrix[0][0] + confusion_matrix[0][1] + confusion_matrix[1][0] + confusion_matrix[1][1]
         precision = confusion_matrix[1][1] / (confusion_matrix[0][1] + confusion_matrix[1][1])
         accuracy = (confusion_matrix[1][1] + confusion_matrix[0][0]) / total
@@ -130,14 +124,18 @@ class PerformancePage(tk.Frame):
         prevalance = (confusion_matrix[1][0] + confusion_matrix[1][1]) / total
         specificity = confusion_matrix[0][0] / (confusion_matrix[0][0] + confusion_matrix[0][1])
         mis_rate = (confusion_matrix[0][1] + confusion_matrix[1][0]) / total
-        l1 = tk.Label(self, text="Precision- " + str(precision)).pack()
-        l1 = tk.Label(self, text="Accuracy- " + str(accuracy)).pack()
-        l1 = tk.Label(self, text="Sensitivity- " + str(sensitivity)).pack()
-        l1 = tk.Label(self, text="Prevalance- " + str(prevalance)).pack()
-        l1 = tk.Label(self, text="Specificity- " + str(specificity)).pack()
-        l1 = tk.Label(self, text="Miscalculation Rate- " + str(mis_rate)).pack()
-        space = tk.Label(self, width=10)
-        space.pack()
+        self.l1.config(text="Precision- " + str(precision))
+        self.l1.update()
+        self.l2.config(text="Accuracy- " + str(accuracy))
+        self.l2.update()
+        self.l3.config(text="Sensitivity- " + str(sensitivity))
+        self.l3.update()
+        self.l4.config(text="Prevalance- " + str(prevalance))
+        self.l4.update()
+        self.l5.config(text="Specificity- " + str(specificity))
+        self.l5.update()
+        self.l6.config(text="Miscalculation Rate- " + str(mis_rate))
+        self.l6.update()
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -150,32 +148,26 @@ class PerformancePage(tk.Frame):
         button.pack()
         space = tk.Label(self, width=10)
         space.pack()
-        """
-        confusion_matrix = confusion_mtarix()
-        # row1 = confusion_matrix[0][1]
-        print(confusion_matrix)
-        matrix = tk.Label(self, text="Confusion Matrix:")
-        matrix.pack(pady=10, padx=10)
-        values1 = tk.Label(self, text=str(confusion_matrix[0][0])+"  "+str(confusion_matrix[0][1]))
-        values1.pack()
-        values2 = tk.Label(self, text=str(confusion_matrix[1][0]) + "  " + str(confusion_matrix[1][1]))
-        values2.pack(pady=10, padx=10)
-        total = confusion_matrix[0][0]+confusion_matrix[0][1]+confusion_matrix[1][0]+confusion_matrix[1][1]
-        precision = confusion_matrix[1][1]/(confusion_matrix[0][1]+confusion_matrix[1][1])
-        accuracy = (confusion_matrix[1][1]+confusion_matrix[0][0])/total
-        sensitivity = confusion_matrix[1][1]/(confusion_matrix[1][0]+confusion_matrix[1][1])
-        prevalance = (confusion_matrix[1][0]+confusion_matrix[1][1])/total
-        specificity = confusion_matrix[0][0]/(confusion_matrix[0][0]+confusion_matrix[0][1])
-        mis_rate = (confusion_matrix[0][1]+confusion_matrix[1][0])/total
-        l1 = tk.Label(self, text="Precision- "+str(precision)).pack()
-        l1 = tk.Label(self, text="Accuracy- "+str(accuracy)).pack()
-        l1 = tk.Label(self, text="Sensitivity- "+str(sensitivity)).pack()
-        l1 = tk.Label(self, text="Prevalance- "+str(prevalance)).pack()
-        l1 = tk.Label(self, text="Specificity- "+str(specificity)).pack()
-        l1 = tk.Label(self, text="Miscalculation Rate- "+str(mis_rate)).pack()
+        self.matrix = tk.Label(self)
+        self.matrix.pack(pady=10, padx=10)
+        self.values1 = tk.Label(self)
+        self.values1.pack()
+        self.values2 = tk.Label(self)
+        self.values2.pack(pady=10, padx=10)
+        self.l1 = tk.Label(self)
+        self.l1.pack()
+        self.l2 = tk.Label(self)
+        self.l2.pack()
+        self.l3 = tk.Label(self)
+        self.l3.pack()
+        self.l4 = tk.Label(self)
+        self.l4.pack()
+        self.l5 = tk.Label(self)
+        self.l5.pack()
+        self.l6 = tk.Label(self)
+        self.l6.pack()
         space = tk.Label(self, width=10)
         space.pack()
-        """
         button1 = ttk.Button(self, text="Back to Home",
                              command=lambda: controller.show_frame(StartPage))
         button1.pack()
@@ -202,8 +194,6 @@ class TestingPage(tk.Frame):
             result1.update()
         print(ans)
 
-
-#    @staticmethod
     def clear_it(self):
         self.result1.config(text="")
         self.entry1.delete(0, 'end')
