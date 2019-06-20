@@ -3,8 +3,9 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.scrolledtext as tkst
 from conversion import convert_speaker, convert_statement, convert_topic
-from NBtwo import predict, confusion_mtarix
+from NBtwo import predict, confusion_mtarix, create_model
 from data_processing import encode_data
+import preprocessing
 
 LARGE_FONT = ("Verdana", 12)
 SMALL_FONT = ("Verdana", 10)
@@ -144,7 +145,7 @@ class PerformancePage(tk.Frame):
         space = tk.Label(self, width=10)
         space.pack()
         button = ttk.Button(self, text="Show Performance",
-                             command=lambda: self.show_performance())
+                            command=lambda: self.show_performance())
         button.pack()
         space = tk.Label(self, width=10)
         space.pack()
@@ -205,6 +206,7 @@ class TestingPage(tk.Frame):
         controller.show_frame(StartPage)
 
     def __init__(self, parent, controller):
+        create_model()
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, padx=150, text="Testing Algorithm", font=LARGE_FONT)
         label.pack(pady=10, padx=10)

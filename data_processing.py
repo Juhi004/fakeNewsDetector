@@ -7,13 +7,17 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import pandas as pd
 from NBtwo import create_model
+from preprocessing import vectorizerStatement, vectorizerTopic, vectorizerSpeaker
+import os
 import nltk
 
 # nltk.download('punkt')
 
+"""
 vectorizerStatement = TfidfVectorizer()
 vectorizerTopic = TfidfVectorizer()
 vectorizerSpeaker = TfidfVectorizer()
+"""
 
 workbook1 = openpyxl.load_workbook('new_train.xlsx')
 workbook2 = openpyxl.load_workbook('new_test.xlsx')
@@ -22,6 +26,13 @@ test = workbook2.worksheets[0]
 
 
 def encode_data(hB, train_file, test_file):
+    if os.path.isfile("final_train.csv"):
+        os.remove("final_train.csv")
+        print("deleted final train file")
+    if os.path.isfile("final_test.csv"):
+        os.remove("final_test.csv")
+        print("deleted final tets file")
+
     wb11 = xlrd.open_workbook(train_file)
     wb21 = xlrd.open_workbook(test_file)
     train_dataset = wb11.sheet_by_index(0)
